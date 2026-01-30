@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->string('username')->nullable()->unique();
             $table->enum('type', ['private', 'group'])->default('private');
-            $table->foreignId('creator_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('creator_id')->nullable()->constrained('users')->OnDelete('set null');
             $table->timestamps();
         });
     }

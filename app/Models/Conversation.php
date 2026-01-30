@@ -11,6 +11,7 @@ class Conversation extends Model
 {
     protected $fillable = [
         'name',
+        'username',
         'type',
         'creator_id'
     ];
