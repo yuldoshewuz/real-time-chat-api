@@ -15,6 +15,10 @@ class Conversation extends Model
         'creator_id'
     ];
 
+    protected $hidden = [
+        'pivot',
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withTimestamps();
