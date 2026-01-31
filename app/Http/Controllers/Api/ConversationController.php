@@ -38,7 +38,7 @@ class ConversationController extends Controller
                 'string',
                 'max:50',
                 'unique:conversations,username',
-                'regex:/^[a-zA-Z0-0_]+$/'
+                'regex:/^[a-zA-Z0-9_]+$/'
             ]
         ]);
 
