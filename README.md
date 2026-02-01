@@ -3,7 +3,7 @@
 A robust, secure, and real-time Chat API built with Laravel 12. This project features full authentication, conversation
 management, real-time messaging using WebSockets (Pusher), and automated email notifications.
 
-## 🛠 Features
+## 🛠 Features   
 
 * **Real-time Messaging:** Integrated with Laravel Broadcasting and Pusher.
 * **Authentication:** Secure API auth using Laravel Sanctum.
@@ -112,6 +112,61 @@ This API broadcasts several events that your frontend should listen for using **
 | `private-chat.{id}` | `MessageRead`          | Message status updated to read |
 | `private-user.{id}` | `ConversationCreated`  | Notification for a new chat    |
 | `presence-online`   | `here/joining/leaving` | Real-time user online status   |
+
+---
+
+## ⚙️ Queue Management (Broadcasting)
+
+This project uses Laravel Queues to handle real-time broadcasting via Pusher. Without a running queue worker, messages will be stored in the database but **not** sent to Pusher.
+
+### 1. Local Development
+
+To process real-time events on your local machine, open a new terminal and run:
+
+```bash
+php artisan queue:work
+```
+
+> **Note:** Keep this terminal open while testing the chat.
+
+### 2. Production (VPS with Supervisor)
+
+On a live server, you should use **Supervisor** to ensure the queue worker runs continuously in the background and restarts automatically if it fails.
+
+**1. Create a configuration file:**
+
+```bash
+sudo nano /etc/supervisor/conf.d/laravel-worker.conf
+```
+
+**2. Paste the following configuration:** (Adjust the path to match your project)
+
+```ini
+[program:laravel-worker]
+process_name=%(program_name)s_%(process_num)02d
+command=php /your_project_directory_link/artisan queue:work --sleep=3 --tries=3 --max-time=3600
+autostart=true
+autorestart=true
+user=www-data
+redirect_stderr=true
+stdout_logfile=/your_project_directory_link/storage/logs/worker.log
+```
+
+**3. Apply changes:**
+
+```bash
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start laravel-worker:*
+```
+
+### 3. Monitoring Queues
+
+To check if your worker is running correctly on the server:
+
+```bash
+sudo supervisorctl status
+```
 
 ---
 
