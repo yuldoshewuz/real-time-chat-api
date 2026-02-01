@@ -875,6 +875,11 @@
                     <td><span class="param-type">int</span></td>
                     <td>Required if private</td>
                 </tr>
+                <tr>
+                    <td><span class="param-name">username</span></td>
+                    <td><span class="param-type">string</span></td>
+                    <td>Required if group</td>
+                </tr>
             </table>
         </div>
         <div class="api-code">
